@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Node arduino</title>
+</head>
+
+<body>
+    <h1>Node arduino</h1>
+
+    <div id="temp"></div>
+    <div id="hum"></div>
+
+    <canvas id="tempCanvas"></canvas>
+
+    <button>Auto</button>
+    <button>Manual</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" charset="UTF-8"></script>
+    <script src="/socket.io/socket.io.js" charset="UTF-8"></script>
+    <script>
+        const socket = io();
+        let counter = 0;
+        socket.on('arduino:data', function (dataSerial) {
+            tempChart.data.labels.push(counter);
+            tempChart.data.datasets.forEach(dataset => {
+                dataset.data.push(dataSerial.temperature);
+            });
+            counter++;
+            tempChart.update();
+            document.getElementById('temp').innerHTML = dataSerial.temperature;
+            document.getElementById('hum').innerHTML = dataSerial.humidity;
+        })
+
+
+        var ctx = document.getElementById('tempCanvas').getContext('2d');
+        var tempChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Serial"],
+                datasets: [{
+                    label: "Serial",
+                    backgroundcolor: 'rgb(52, 73, 94)',
+                    bodercolor: 'rgb(41, 128, 185)',
+                    data: []
+                }]
+            },
+            options: {}
+        });
+
+    </script>
+</body>
+
+</html>
