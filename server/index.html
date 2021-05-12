@@ -16,8 +16,8 @@
 
     <canvas id="tempCanvas"></canvas>
 
-    <button>Auto</button>
-    <button>Manual</button>
+    <button onclick="changeAuto()">Auto</button>
+    <button onclick="changeManual()">Manual</button>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js" charset="UTF-8"></script>
     <script src="/socket.io/socket.io.js" charset="UTF-8"></script>
@@ -45,13 +45,25 @@
                 labels: ["Serial"],
                 datasets: [{
                     label: "Serial",
-                    backgroundcolor: 'rgb(52, 73, 94)',
-                    bodercolor: 'rgb(41, 128, 185)',
+                    backgroundColor: 'rgb(52, 73, 94)',
+                    boderColor: 'rgb(41, 128, 185)',
                     data: []
                 }]
             },
             options: {}
         });
+
+        function changeAuto() {
+            var oReq = new XMLHttpRequest();
+            oReq.open("get", "http://localhost:3000/changetoauto", true);
+            oReq.send();
+        }
+
+        function changeManual() {
+            var oReq = new XMLHttpRequest();
+            oReq.open("get", "http://localhost:3000/changetomanual", true);
+            oReq.send();
+        }
 
     </script>
 </body>
